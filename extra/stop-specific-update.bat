@@ -1,5 +1,5 @@
 :: Download the latest update from https://github.com/CriBP/Windows_11_Clean
-TITLE: Terminate Cross Device Resume script
+TITLE: Stop specific Windows Update script
 @echo off
 Color 07
 @echo Self elevate
@@ -22,11 +22,9 @@ cd "%docdir%\%mb% %model% PC-info"
 @echo -%Green% Add date and time to files %Reset%
 set today=%date:~10,4%-%date:~4,2%-%date:~7,2%_%time:~0,2%h%time:~3,2%m%time:~6,2%
 
-@echo -%Green% Turn Resume off manually: -%Cyan% https://www.elevenforum.com/t/enable-or-disable-resume-app-from-device-and-continue-on-this-windows-11-pc.29671/ %Reset%
-ms-settings:system-resume
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\CrossDeviceResume\Configuration" /f /v "IsResumeAllowed" /t REG_DWORD /d "0"
+@echo -%Green% To prevent a specific update from installing Download the "Show or hide updates" troubleshooter package from the Microsoft website: %Cyan% https://download.microsoft.com/download/f/2/2/f22d5fdb-59cd-4275-8c95-1be17bf70b21/wushowhide.diagcab %Reset%
+powershell -c "Invoke-WebRequest -Uri 'https://download.microsoft.com/download/f/2/2/f22d5fdb-59cd-4275-8c95-1be17bf70b21/wushowhide.diagcab' -OutFile '%docdir%\%mb% %model% PC-info\%today%_wushowhide.diagcab'"
 
-@echo  -%Green% Turn Resume off at start: -%Cyan% https://www.elevenforum.com/t/enable-or-disable-resume-app-from-device-and-continue-on-windows-11-pc.29671/page-2
-schtasks /create /sc OnLogon /delay 0000:03 /tn "\Microsoft\Windows\Shell\Kill CrossDeviceResume.exe" /tr "taskkill /im CrossDeviceResume.exe /f" /ru SYSTEM /f
 pause
 :End
+https://github.com/ShadowWhisperer/Remove-MS-Edge/blob/b9172d58bfe95f46cbe01fafdf661fa526623bb7/Batch/Both.bat
