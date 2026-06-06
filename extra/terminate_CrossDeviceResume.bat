@@ -1,9 +1,9 @@
 :: Download the latest update from https://github.com/CriBP/Windows_11_Clean
-TITLE: Import WiFi profiles script
+TITLE: Export WiFi profiles script
 @echo off
 Color 07
 @echo Self elevate
-net.exe session 1>NUL 2>NUL || (Echo This script requires elevated rights. Please accept Administrator rights  & ping 127.0.0.1 -n 5 & powershell -Command "Start-Process 'import-wifi.bat' -Verb runAs" & exit /b 1)
+net.exe session 1>NUL 2>NUL || (Echo This script requires elevated rights. Please accept Administrator rights  & ping 127.0.0.1 -n 5 & powershell -Command "Start-Process 'terminate_CrossDeviceResume.bat' -Verb runAs" & exit /b 1)
 if not "%1"=="max" start /max cmd /c %0 max & Exit /b >> CleanUp.log
 FOR /F "tokens=2* skip=2" %%a in ('reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" /v "{374DE290-123F-4565-9164-39C4925E467B}"') do (set downloaddir=%%b)
 @echo Generate ANSI ESC characters for color codes
@@ -22,8 +22,11 @@ cd "%docdir%\%mb% %model% PC-info"
 @echo -%Green% Add date and time to files %Reset%
 set today=%date:~10,4%-%date:~4,2%-%date:~7,2%_%time:~0,2%h%time:~3,2%m%time:~6,2%
 
-@echo -%Green% Export WiFi passwords -%Cyan% https://www.elevenforum.com/t/backup-and-restore-wi-fi-network-profiles-in-windows-11.4472/ %Reset%
-netsh wlan show profiles
-for %a in (*.xml) do netsh wlan add profile filename="%a"
+@echo -%Green% Turn Resume off manually: -%Cyan% https://www.elevenforum.com/t/enable-or-disable-resume-app-from-device-and-continue-on-this-windows-11-pc.29671/ %Reset%
+ms-settings:system-resume
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\CrossDeviceResume\Configuration" /f /v "IsResumeAllowed" /t REG_DWORD /d "0"
+
+@echo  -%Green% Turn Resume off at start: -%Cyan% https://www.elevenforum.com/t/enable-or-disable-resume-app-from-device-and-continue-on-windows-11-pc.29671/page-2
+schtasks /create /sc OnLogon /delay 0000:03 /tn "\Microsoft\Windows\Shell\Kill CrossDeviceResume.exe" /tr "taskkill /im CrossDeviceResume.exe /f" /ru SYSTEM /f
 pause
 :End
