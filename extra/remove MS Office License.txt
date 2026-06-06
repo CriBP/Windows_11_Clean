@@ -1,0 +1,21 @@
+Using the Command Prompt (For Advanced Users)
+
+For users comfortable with command-line tools, you can remove Microsoft Office 2021 license using the Command Prompt.
+
+    Open Command Prompt as Administrator
+    Press Win + X, then select Command Prompt (Admin) from the menu.
+    Navigate to Office Installation Folder
+    Type the following command to navigate to the folder where Office is installed (default path):
+
+cd \Program Files\Microsoft Office\Office16
+Remove License Using OSPP Command
+Now, use the Office Software Protection Platform (OSPP) tool to remove the license. Type the following command:
+
+cscript ospp.vbs /dstatus
+
+This will display the license status of your MS Office 2021 installation. To remove the license, type:
+cscript ospp.vbs /unpkey:<last 5 characters of the product key>
+
+After executing the command, the product key will be removed, and your Microsoft Office 2021 license will be deactivated.
+Restart Office Apps
+After performing these steps, restart your Office apps to complete the process.

@@ -1,0 +1,15 @@
+So here is how to do it
+
+1) Mount vhd as a drive and note letter of OS drive e.g. R:
+2) Open admin command prompt and type
+Code:
+defrag R: /O /H /U /V
+3) Eject mounted vhd from disk management
+4) Compact VHD (substitute correct drive letter, name and path as appropriate)
+Code:
+diskpart
+select vdisk file="D:\my path\my vhd.vhdx"
+compact vdisk
+exit
+
+Compact from Hyper-V does not work after a defrag - it thinks file is compact.

@@ -1,0 +1,40 @@
+Shrinking the size of a volume
+
+Scenario: Shrink the system volume (drive C:) by 10GB
+
+    Determine the volume number ascribed to drive C: by typing the following command:
+    diskpart> list volume
+    Select the associated volume (in this scenario, [volume 1]) by typing the following command:
+    diskpart> select volume 1
+    To shrink this volume, type the following command:
+    diskpart> shrink desired=10240
+    Note: If you just type shrink without any parameters, DiskPart computes the maximum space it can extract from the volume and then shrink selected volume by that amount.
+    To see how much space you can snatch from an existing drive, type the following command:
+    diskpart> shrink querymax
+
+DiskPart's shrink command reduces an existing partition's size without damaging said partition.
+
+Expanding the size of a volume
+
+Scenario: Expand the system volume (drive C:) by 10GB
+
+    Determine the volume number ascribed to drive C: by typing the following command:
+    diskpart> list volume
+    Select the associated volume (in this scenario, [volume 1]) by typing the following command:
+    diskpart> select volume 1
+    To expand this volume, you can do either of the following options:
+
+Option 1: To expand the volume/partition as much as possible:
+diskpart> extend
+
+Option 2: To constrain the extension within a specific size parameter:
+diskpart> extend size=10240
+
+Using the Windows GUI for resizing
+
+Alternatively, you can use the Computer Management GUI in Windows to do volume resizing tasks.
+
+    To create a new volume and mount it a drive letter:Computer Management > Disk Management > Select unallocated disk space you need > Right-click mouse button > New Simple Volume > Select needed size > Assign drive letter > Format partition
+    To shrink or expand volumes:Computer Management > Disk Management > Select the partition you wish to shrink/expand > Right-click on the mouse button to shrink or expand.
+
+Make sure you have sufficient space to make these changes.

@@ -1,0 +1,9 @@
+To turn off memory compression, open a PowerShell window with admin rights. Do this by opening the “Start” menu, finding “PowerShell”, and clicking “Run as Administrator” on the right.
+Then, in the “User Account Control” prompt, choose “Yes.”
+Select "Run as Administrator" on the right.
+On the PowerShell window, type the following command and press Enter:
+Get-MMAgent
+Disable-MMAgent -mc
+
+Enable Memory Compression
+Enable-MMAgent -mc

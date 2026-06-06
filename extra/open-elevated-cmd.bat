@@ -1,0 +1,1 @@
+powershell -Command "Start-Process 'cmd.exe' -Verb runAs"

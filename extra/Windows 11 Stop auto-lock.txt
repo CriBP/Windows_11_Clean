@@ -1,0 +1,12 @@
+https://learn.microsoft.com/en-us/answers/questions/4046844/how-do-i-prevent-windows-from-locking-itself
+
+This is the definitive solution to disable the lock screen completely:
+
+    Press Win+R -> regedit
+    Go to HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows
+    Right-click on Windows, select New -> Key
+    Rename this new key Personalization (IMPORTANT!!! with a "z" not an "s" !!!)
+    Right-click Personalization, select New -> DWORD (32-bit) Value
+    Rename this new Dword NoLockScreen
+    Right-click NoLockScreen, click Modify, change the value to 1, press OK
+    Restart computer (if it has issues restarting after even 5 minutes, just hold power button for 5 second and force shutdown. Then restart and it'll all be as normal).

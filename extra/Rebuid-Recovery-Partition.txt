@@ -1,0 +1,41 @@
+
+1. Instruct Windows to forget the existing Recovery volume.
+Code:
+
+reagentc /disable
+
+
+2. Run diskmgmt.msc and check if there's an empty partition BEFORE the Windows partition, or AFTER.
+
+If your deleted Recovery partition was located before Windows partition, find a 3rd-party Partition Manager and shift Windows LEFT to recover the now empty space. After that step is done, shrink the existing Windows partition to open about 800 MB at the end of the disk.
+
+If the deleted Recovery partition was at the end of the disk, shrink Windows until it frees up 800 MB of free space.
+
+3. Recreate the Recovery volume if needed, using diskpart:
+Code:
+
+select disk 0
+list partition
+
+
+If there's no partition 3, create one:
+Code:
+
+create partition primary
+format quick fs=ntfs label="Recovery"
+set id="de94bba4-06d1-4d40-a16a-bfd50179d6ac"
+gpt attributes=0x8000000000000001
+exit
+
+
+4. Find your install ISO. Using 7-Zip open the file \sources\install.wim. If you've converted the WIM into ESD format, then you need to convert it back to WIM format using NTLite.
+
+From 7-Zip, select the "[N]" numbered folder which corresponds to your install image's index, and browse \Windows\System32\Recovery.
+Extract files Winre.wim & ReAgent.xml, and copy them to C:\Windows\System32\Recovery.
+
+6. Re-activate the Recovery partition.
+Code:
+
+reagentc /enable
+reagentc /info
+
